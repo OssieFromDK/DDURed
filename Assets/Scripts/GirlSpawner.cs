@@ -5,6 +5,8 @@ public class GirlSpawner : MonoBehaviour
 {
     public GameObject GirlPrefab;
     public GameObject BlinkLightObject;
+    public AudioSource crashSounds;
+    public AudioSource spawnSound;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,8 +14,10 @@ public class GirlSpawner : MonoBehaviour
 
         if (other.gameObject.name == "GirlTriggerBox")
         {
+            spawnSound.Play();
             StartCoroutine(BlinkLight());
             Instantiate(GirlPrefab, new Vector3(157.22f, 0f, 125.95f), new Quaternion(0, -0.909961283f, 0, 0.414693326f));
+            StartCoroutine(PlayCarSounds());
         }
     }
 
@@ -30,5 +34,11 @@ public class GirlSpawner : MonoBehaviour
         BlinkLightObject.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         BlinkLightObject.SetActive(false);
+    }
+
+    private IEnumerator PlayCarSounds()
+    {
+        yield return new WaitForSeconds(1f);
+        crashSounds.Play();
     }
 }
